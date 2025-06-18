@@ -15,7 +15,7 @@ app.get("/api", (req, res) => {
 app.get("*error", (req, res) => {
   return res.json({
     status: "error",
-    msg: "klaida",
+    msg: "No such route",
   });
 });
 

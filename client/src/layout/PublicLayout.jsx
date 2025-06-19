@@ -7,7 +7,7 @@ export function PublicLayout() {
     <>
       <Header />
       <Outlet />
-      <Footer />
+      <Footer isPublicPage={true} />
     </>
   );
 }

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { MovieList } from "../components/movies/MovieList";
+import { CategoriesList } from "./CategoriesList";
 import { useEffect } from "react";
 
-export function PageMovies() {
+export function AllCategories() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5435/api/movies", {
+    fetch("http://localhost:5435/api/categories", {
       method: "GET",
     })
       .then((res) => res.json())
@@ -19,9 +19,9 @@ export function PageMovies() {
   }, []);
 
   return (
-    <>
-      {/* FILTER */}
-      <MovieList data={data} />
-    </>
+    <div className="container px-4 py-5" id="featured-3">
+      <h2 className="pb-2 border-bottom">All categories</h2>
+      <CategoriesList data={data} />
+    </div>
   );
 }

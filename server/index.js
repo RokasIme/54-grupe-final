@@ -1,24 +1,24 @@
 import express from "express";
+import cors from "cors";
+import { apiRouter } from "./routes/ApiRouter.js";
+import { PORT_CLIENT, PORT_SERVER } from "./env.js";
 
 const app = express();
-const PORT = 5435;
+const corsOptions = {
+  origin: "http://localhost:" + PORT_CLIENT,
+};
 
 app.use(express.static("public"));
 
-app.get("/api", (req, res) => {
-  return res.json({
-    status: "success",
-    msg: "API is working",
-  });
-});
+app.use("/api", cors(corsOptions), apiRouter);
 
 app.get("*error", (req, res) => {
-  return res.json({
+  return res.status(404).json({
     status: "error",
     msg: "No such route",
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server: http://localhost:${PORT}`);
+app.listen(PORT_SERVER, () => {
+  console.log(`Server: http://localhost:${PORT_SERVER}`);
 });

@@ -16,14 +16,14 @@ export async function getFeaturedCategories(req, res) {
     const [result] = await connection.execute(sql);
     return res.json({
       status: "success",
-      data: result,
+      list: result,
     });
   } catch (error) {
     console.log(error);
 
     return res.status(500).json({
       status: "error",
-      data: [],
+      list: [],
       msg: "Serverio klaida",
     });
   }

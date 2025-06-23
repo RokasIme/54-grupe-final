@@ -7,7 +7,7 @@ export function MovieCard({ data }) {
     <div className="col">
       <div className="card shadow-sm">
         <img
-          src={"http://localhost:5435/img/movie-thumbnails/" + data.thumbnail}
+          src={"http://localhost:5437/img/movie-thumbnails/" + data.thumbnail}
           className="movie-card-thumbnail card-img-top"
           style={{ height: 225 }}
         />

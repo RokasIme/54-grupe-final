@@ -13,7 +13,7 @@ export function CategoryCard({ data }) {
       <h3 className="fs-2 text-body-emphasis">{data.name}</h3>
       <p>Count: {data.count}</p>
       <p>{data.description}</p>
-      <Link to={`/movies-by-category/${data.url_slug}`} className="icon-link">
+      <Link to={`/categories/${data.url_slug}`} className="icon-link">
         View category
         <svg className="bi" aria-hidden="true" viewBox="0 0 16 16">
           {" "}

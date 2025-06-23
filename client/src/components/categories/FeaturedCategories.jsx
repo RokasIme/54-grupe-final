@@ -6,13 +6,13 @@ export function FeaturedCategories() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5435/api/categories/featured", {
+    fetch("http://localhost:5437/api/categories/featured", {
       method: "GET",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
-          setData(() => data.data);
+          setData(() => data.list);
         }
       })
       .catch(console.error);

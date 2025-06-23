@@ -1,3 +1,7 @@
+/**
+ * Laiko formatavimas is minuciu i valandas ir minutes.
+ * @param {number} duration Laikas minutemis
+ */
 export function formatMovieDuration(duration) {
   if (duration < 60) {
     return `${duration} mins`;

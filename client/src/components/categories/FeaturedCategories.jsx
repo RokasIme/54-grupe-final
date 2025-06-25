@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CategoriesList } from "./CategoriesList";
-import { useEffect } from "react";
 
 export function FeaturedCategories() {
   const [data, setData] = useState([]);

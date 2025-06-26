@@ -10,27 +10,30 @@ import { PageCategoryInner } from "./pages/PageCategoryInner";
 import { PageDashboard } from "./pages/PageDashboard";
 import { PrivateLayout } from "./layout/PrivateLayout";
 import { PageNotFound } from "./pages/PageNotFound";
+import { UserContextWrapper } from "./context/UserContextWrapper";
 
 export function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route Component={PublicLayout}>
-          <Route index path="/" element={<PageHome />} />
-          <Route path="/movies" element={<PageMovies />} />
-          <Route path="/movies/:movie" element={<PageMovieInner />} />
-          <Route path="/categories" element={<PageCategories />} />
-          <Route path="/categories/:category" element={<PageCategoryInner />} />
-          <Route path="/register" element={<PageRegister />} />
-          <Route path="/login" element={<PageLogin />} />
-        </Route>
-        <Route Component={PrivateLayout}>
-          <Route path="/dashboard" element={<PageDashboard />} />
-        </Route>
-        <Route Component={PublicLayout}>
-          <Route path="*" element={<PageNotFound />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <UserContextWrapper>
+      <BrowserRouter>
+        <Routes>
+          <Route Component={PublicLayout}>
+            <Route index path="/" element={<PageHome />} />
+            <Route path="/movies" element={<PageMovies />} />
+            <Route path="/movies/:movie" element={<PageMovieInner />} />
+            <Route path="/categories" element={<PageCategories />} />
+            <Route path="/categories/:category" element={<PageCategoryInner />} />
+            <Route path="/register" element={<PageRegister />} />
+            <Route path="/login" element={<PageLogin />} />
+          </Route>
+          <Route Component={PrivateLayout}>
+            <Route path="/dashboard" element={<PageDashboard />} />
+          </Route>
+          <Route Component={PublicLayout}>
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserContextWrapper>
   );
 }

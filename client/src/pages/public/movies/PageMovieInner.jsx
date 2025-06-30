@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { formatMovieDuration } from "../lib/formatMovieDuration";
-import defaultImg from "../assets/movies-hero.png";
+import { formatMovieDuration } from "../../../lib/formatMovieDuration";
+import defaultImg from "../../../assets/movies-hero.png";
 
 export function PageMovieInner() {
   const [movieData, setMovieData] = useState([]);

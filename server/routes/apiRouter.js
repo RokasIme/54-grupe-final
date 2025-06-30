@@ -6,11 +6,15 @@ import { getMovieBySlug } from "../api/getMovieBySlug.js";
 import { getMoviesByCategory } from "../api/getMoviesByCategory.js";
 import { postRegister } from "../api/postRegister.js";
 import { postLogin } from "../api/postLogin.js";
+import { getLogin } from "../api/getLogin.js";
+import { getLogout } from "../api/getLogout.js";
 
 export const apiRouter = express.Router();
 
 apiRouter.post("/register", postRegister);
 apiRouter.post("/login", postLogin);
+apiRouter.get("/login", getLogin);
+apiRouter.get("/logout", getLogout);
 
 apiRouter.get("/categories", getAllCategories);
 apiRouter.get("/categories/featured", getFeaturedCategories);

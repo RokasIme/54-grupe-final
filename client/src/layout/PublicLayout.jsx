@@ -5,7 +5,7 @@ import { Footer } from "../components/footer/Footer";
 export function PublicLayout() {
   return (
     <>
-      <Header />
+      <Header isPublicPage={true} />
       <Outlet />
       <Footer isPublicPage={true} />
     </>

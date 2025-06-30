@@ -81,5 +81,9 @@ export async function postLogin(req, res) {
   return res.set("Set-Cookie", cookie.join("; ")).json({
     status: "success",
     msg: "Jus buvote sekmingai prijungti prie sistemos",
+    user: {
+      id: userObj.id,
+      email: email,
+    },
   });
 }

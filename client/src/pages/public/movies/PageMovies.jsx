@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { MovieList } from "../components/movies/MovieList";
+import { MovieList } from "../../../components/movies/MovieList";
 import { useEffect } from "react";
-import { Placeholder } from "../components/placeholder/placeholder";
-import { PageTitle } from "../components/page-title/PageTitle";
+import { Placeholder } from "../../../components/placeholder/placeholder";
+import { PageTitle } from "../../../components/page-title/PageTitle";
 
 export function PageMovies() {
   const [data, setData] = useState([]);

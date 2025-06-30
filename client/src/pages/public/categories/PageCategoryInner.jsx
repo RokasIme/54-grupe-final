@@ -1,8 +1,8 @@
 import { useParams } from "react-router";
-import { PageTitle } from "../components/page-title/PageTitle";
-import { capitalize } from "../lib/capitalize";
+import { PageTitle } from "../../../components/page-title/PageTitle";
+import { capitalize } from "../../../lib/capitalize";
 import { useEffect, useState } from "react";
-import { MovieList } from "../components/movies/MovieList";
+import { MovieList } from "../../../components/movies/MovieList";
 
 export function PageCategoryInner() {
   const params = useParams();

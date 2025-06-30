@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { UserContext } from "../../context/user/UserContext";
 
 export function LoginForm() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("chuck@norris.lt");
   const [emailValidationText, setEmailValidationText] = useState("");
   const [emailValidationState, setEmailValidationState] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("chuck@norris.lt");
   const [passwordValidationText, setPasswordValidationText] = useState("");
   const [passwordValidationState, setPasswordValidationState] = useState("");
   const [alertText, setAlertText] = useState("");
   const [alertStatus, setAlertStatus] = useState("success");
   const navigate = useNavigate();
+
+  const { login } = useContext(UserContext);
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -32,15 +35,15 @@ export function LoginForm() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-
         if (data.status === "success") {
           setAlertText(data.msg);
           setAlertStatus("success");
           setEmailValidationState("is-valid");
           setPasswordValidationState("is-valid");
 
-          navigate("/dashboard");
+          login(data.user);
+
+          navigate("/admin");
         } else {
           if (typeof data.msg === "string") {
             setAlertText(data.msg);

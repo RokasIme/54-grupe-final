@@ -1,18 +1,16 @@
-import { connection } from "../db.js";
+import { connection } from "../../db.js";
 
-export async function getFeaturedCategories(req, res) {
+export async function getAllCategories(req, res) {
   try {
     const sql = `
             SELECT *,
                 ( 
                     SELECT COUNT(*)
                     FROM movies
-                    WHERE movies.category_id = categories.id AND movies.is_published = 1
+                    WHERE movies.category_id = categories.id
                 ) AS count
             FROM categories
-            WHERE is_published = 1
-            ORDER BY count DESC
-            LIMIT 3;`;
+            ORDER BY name;`;
     const [result] = await connection.execute(sql);
     return res.json({
       status: "success",

@@ -1,30 +1,17 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { MovieList } from "../../../components/movies/MovieList";
-import { useEffect } from "react";
 import { Placeholder } from "../../../components/placeholder/placeholder";
 import { PageTitle } from "../../../components/page-title/PageTitle";
+import { MoviesContext } from "../../../context/movies/MoviesContext";
 
 export function PageMovies() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:5437/api/movies", {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          setData(() => data.list);
-        }
-      })
-      .catch(console.error);
-  }, []);
+  const { publicMovies } = useContext(MoviesContext);
 
   return (
     <div className="container">
       <PageTitle title="All movies" />
       <Placeholder text="Filter" />
-      <MovieList data={data} />
+      <MovieList data={publicMovies} />
     </div>
   );
 }

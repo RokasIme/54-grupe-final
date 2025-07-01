@@ -1,28 +1,22 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { useParams } from "react-router";
 import { formatMovieDuration } from "../../../lib/formatMovieDuration";
 import defaultImg from "../../../assets/movies-hero.png";
+import { MoviesContext } from "../../../context/movies/MoviesContext";
 
 export function PageMovieInner() {
-  const [movieData, setMovieData] = useState([]);
+  const { movies } = useContext(MoviesContext);
   const params = useParams();
+  let movie = null;
 
-  useEffect(() => {
-    if (!movieData.length) {
-      fetch("http://localhost:5437/api/movies/" + params.movie, {
-        method: "GET",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === "success") {
-            setMovieData(() => data.data);
-          }
-        })
-        .catch(console.error);
+  for (const m of movies) {
+    if (m.url_slug === params.movie) {
+      movie = m;
+      break;
     }
-  }, [movieData, params.movie]);
+  }
 
-  if (!movieData.length) {
+  if (!movie) {
     return (
       <div className="container px-4 py-5">
         <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
@@ -49,8 +43,6 @@ export function PageMovieInner() {
       </div>
     );
   }
-
-  const movie = movieData[0];
 
   return (
     <div className="container px-4 py-5">

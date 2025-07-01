@@ -1,4 +1,4 @@
-import { connection } from "../db.js";
+import { connection } from "../../db.js";
 
 export async function getLogout(req, res) {
   try {

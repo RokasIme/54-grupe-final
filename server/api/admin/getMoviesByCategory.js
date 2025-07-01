@@ -1,4 +1,4 @@
-import { connection } from "../db.js";
+import { connection } from "../../db.js";
 
 export async function getMoviesByCategory(req, res) {
   try {

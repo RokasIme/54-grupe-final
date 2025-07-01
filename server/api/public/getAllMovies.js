@@ -1,26 +1,26 @@
-import { connection } from "../db.js";
+import { connection } from "../../db.js";
 
-export async function getMovieBySlug(req, res) {
+export async function getAllMovies(req, res) {
   try {
     const sql = `
             SELECT movies.*,
-                categories.name as categoryName,
-                categories.url_slug as categoryUrlSlug
+                categories.url_slug AS categoryUrlSlug,
+                categories.name AS categoryName
             FROM movies
             INNER JOIN categories
                 ON categories.id = movies.category_id
-            WHERE movies.url_slug = ?;`;
-    const [result] = await connection.execute(sql, [req.params.slug]);
+            WHERE movies.is_published = 1 AND  categories.is_published = 1;`;
+    const [result] = await connection.execute(sql);
     return res.json({
       status: "success",
-      data: result,
+      list: result,
     });
   } catch (error) {
     console.log(error);
 
     return res.status(500).json({
       status: "error",
-      data: [],
+      list: [],
       msg: "Serverio klaida",
     });
   }

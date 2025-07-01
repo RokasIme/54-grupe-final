@@ -22,7 +22,7 @@ export function RegisterForm() {
     setPasswordValidationState("");
     setPasswordValidationText("");
 
-    fetch("http://localhost:5437/api/register", {
+    fetch("http://localhost:5437/api/public/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

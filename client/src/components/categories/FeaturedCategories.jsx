@@ -1,26 +1,14 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { CategoriesList } from "./CategoriesList";
+import { CategoriesContext } from "../../context/categories/CategoriesContext";
 
 export function FeaturedCategories() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:5437/api/categories/featured", {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          setData(() => data.list);
-        }
-      })
-      .catch(console.error);
-  }, []);
+  const { featuredCategories } = useContext(CategoriesContext);
 
   return (
     <div className="container px-4 py-5" id="featured-3">
       <h2 className="pb-2 border-bottom">Movies by category</h2>
-      <CategoriesList data={data} />
+      <CategoriesList data={featuredCategories} />
     </div>
   );
 }

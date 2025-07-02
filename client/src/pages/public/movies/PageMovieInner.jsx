@@ -5,11 +5,11 @@ import defaultImg from "../../../assets/movies-hero.png";
 import { MoviesContext } from "../../../context/movies/MoviesContext";
 
 export function PageMovieInner() {
-  const { movies } = useContext(MoviesContext);
+  const { publicMovies } = useContext(MoviesContext);
   const params = useParams();
   let movie = null;
 
-  for (const m of movies) {
+  for (const m of publicMovies) {
     if (m.url_slug === params.movie) {
       movie = m;
       break;

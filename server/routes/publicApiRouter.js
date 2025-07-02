@@ -16,3 +16,10 @@ publicApiRouter.get("/categories", getAllCategories);
 publicApiRouter.get("/categories/featured", getFeaturedCategories);
 
 publicApiRouter.get("/movies", getAllMovies);
+
+publicApiRouter.all("*error", (req, res) => {
+  return res.status(404).json({
+    status: "error",
+    msg: "No such public API route exists",
+  });
+});

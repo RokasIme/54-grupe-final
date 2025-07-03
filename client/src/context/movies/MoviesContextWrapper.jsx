@@ -49,20 +49,17 @@ export function MoviesContextWrapper(props) {
     setAdminMovies(() => data);
   }
 
-  function adminCreateMovie() {}
-
-  function adminEditMovie() {}
-
-  function adminRemoveMovie() {}
+  function adminDeleteMovie(id) {
+    setPublicMovies((list) => list.filter((m) => m.id !== id));
+    setAdminMovies((list) => list.filter((m) => m.id !== id));
+  }
 
   const value = {
     publicMovies,
     adminMovies,
     setPublicMovies,
     setAdminMoviesList,
-    adminCreateMovie,
-    adminEditMovie,
-    adminRemoveMovie,
+    adminDeleteMovie,
   };
 
   return <MoviesContext.Provider value={value}>{props.children}</MoviesContext.Provider>;

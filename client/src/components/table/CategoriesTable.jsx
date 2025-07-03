@@ -17,7 +17,7 @@ export function CategoriesTable({ data }) {
         </thead>
         <tbody>
           {data.map((item) => (
-            <CategoriesTableRow key={item.id} data={item} />
+            <CategoriesTableRow key={item.id} category={item} />
           ))}
         </tbody>
       </table>

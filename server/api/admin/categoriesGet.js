@@ -1,6 +1,6 @@
 import { connection } from "../../db.js";
 
-export async function getAllCategories(req, res) {
+export async function categoriesGet(req, res) {
   try {
     const sql = `
             SELECT *,

@@ -1,25 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
 import { CategoriesContext } from "../../context/categories/CategoriesContext";
 
-export function CategoryForm() {
-  const { category } = useParams();
-  const { adminCategories, adminRefreshCategory } = useContext(CategoriesContext);
-
+export function CategoryNewForm() {
+  const { adminRefreshCategory } = useContext(CategoriesContext);
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("draft");
-
-  useEffect(() => {
-    const categoryData = category ? adminCategories.filter((c) => c.url_slug === category)[0] : null;
-    if (categoryData) {
-      setName(categoryData.name);
-      setUrl(categoryData.url_slug);
-      setDescription(categoryData.description);
-      setStatus(categoryData.is_published === 0 ? "draft" : "publish");
-    }
-  }, [adminCategories, category]);
+  const navigate = useNavigate();
 
   function handleResetClick() {
     setName("");
@@ -43,18 +32,14 @@ export function CategoryForm() {
       .then((data) => {
         if (data.status === "success") {
           adminRefreshCategory();
+          navigate("/admin/categories");
         }
       })
       .catch(console.error);
   }
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      action="/api/admin/categories"
-      data-method="POST"
-      className="needs-validation col-12 col-md-10 col-lg-8 col-xl-6"
-    >
+    <form onSubmit={handleFormSubmit} className="needs-validation col-12 col-md-10 col-lg-8 col-xl-6">
       <div className="row g-3">
         <div className="col-sm-12">
           <label htmlFor="name" className="form-label">

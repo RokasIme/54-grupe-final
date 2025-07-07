@@ -16,3 +16,9 @@ main {
   top: 1rem;
   left: 1rem;
 }
+
+.movie-thumbnail {
+  height: 20rem;
+  object-fit: contain;
+  background-image: url();
+}

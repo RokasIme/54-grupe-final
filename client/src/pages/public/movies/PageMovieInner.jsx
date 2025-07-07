@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { formatMovieDuration } from "../../../lib/formatMovieDuration";
 import defaultImg from "../../../assets/movies-hero.png";
 import { MoviesContext } from "../../../context/movies/MoviesContext";
@@ -34,9 +34,9 @@ export function PageMovieInner() {
             <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">Movie not found</h1>
             <p className="lead">Movie with address "{params.movie}" not found.</p>
             <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-              <a href="/movies" className="btn btn-primary btn-lg px-4 me-md-2">
+              <Link to="/movies" className="btn btn-primary btn-lg px-4 me-md-2">
                 View all movies
-              </a>
+              </Link>
             </div>
           </div>
         </div>

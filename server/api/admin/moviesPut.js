@@ -1,7 +1,16 @@
 import { connection } from "../../db.js";
 import { IsValid } from "../../lib/IsValid.js";
 
-export async function moviesPost(req, res) {
+export async function moviesPut(req, res) {
+  const [errParams, msgParams] = IsValid.requiredFields(req.params, [{ field: "id", validation: IsValid.idAsString }]);
+
+  if (errParams) {
+    return res.status(400).json({
+      status: "error",
+      msg: msgParams,
+    });
+  }
+
   const [err, msg] = IsValid.requiredFields(
     req.body,
     [
@@ -19,7 +28,7 @@ export async function moviesPost(req, res) {
   );
 
   if (err) {
-    return res.json({
+    return res.status(400).json({
       status: "error",
       msg: msg,
     });
@@ -29,20 +38,20 @@ export async function moviesPost(req, res) {
   const duration = (hours ?? 0) * 60 + (minutes ?? 0);
 
   try {
-    const sql = "SELECT * FROM movies WHERE url_slug = ?;";
-    const [result] = await connection.execute(sql, [url]);
+    const sql = "SELECT * FROM movies WHERE url_slug = ? AND id != ?;";
+    const [result] = await connection.execute(sql, [url, +req.params.id]);
 
     if (result.length > 0) {
-      return res.json({
+      return res.status(400).json({
         status: "error",
         msg: "Toks filmas jau egzistuoja.",
       });
     }
   } catch (error) {
     console.log(error);
-    return res.json({
+    return res.status(500).json({
       status: "error",
-      msg: "Serverio klaida, pabandykite filma sukurti veliau1",
+      msg: "Serverio klaida, pabandykite filma atnaujinti veliau1",
     });
   }
 
@@ -84,25 +93,25 @@ export async function moviesPost(req, res) {
       sqValues.push(categoryId);
     }
 
-    const sql = `INSERT INTO movies (${sqlColumns.join(", ")}) VALUES (?${", ?".repeat(sqlColumns.length - 1)});`;
-    const [result] = await connection.execute(sql, sqValues);
+    const sql = `UPDATE movies SET ${sqlColumns.map((s) => s + " = ?").join(", ")} WHERE id = ?;`;
+    const [result] = await connection.execute(sql, [...sqValues, +req.params.id]);
 
     if (result.affectedRows !== 1) {
-      return res.json({
+      return res.status(500).json({
         status: "error",
-        msg: "Serverio klaida, pabandykite filma sukurti veliau2",
+        msg: "Serverio klaida, pabandykite filma atnaujinti veliau2",
       });
     }
   } catch (error) {
     console.log(error);
-    return res.json({
+    return res.status(500).json({
       status: "error",
-      msg: "Serverio klaida, pabandykite filma sukurti veliau3",
+      msg: "Serverio klaida, pabandykite filma atnaujinti veliau3",
     });
   }
 
   return res.json({
     status: "success",
-    msg: "Filmas sukuras sekmingai",
+    msg: "Filmas atnaujintas sekmingai",
   });
 }

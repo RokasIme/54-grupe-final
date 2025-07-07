@@ -4,12 +4,13 @@ import { CategoriesContext } from "../../context/categories/CategoriesContext";
 import { MoviesContext } from "../../context/movies/MoviesContext";
 import defaultImg from "../../assets/default.webp";
 
-export function MovieNewForm() {
+export function MovieEditForm() {
   const navigate = useNavigate();
   const { movie } = useParams();
   const { adminCategories } = useContext(CategoriesContext);
   const { adminMovies, adminRefreshMovies } = useContext(MoviesContext);
 
+  const [id, setId] = useState(0);
   const [img, setImg] = useState("");
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
@@ -23,9 +24,14 @@ export function MovieNewForm() {
     const movieData = movie ? adminMovies.filter((m) => m.url_slug === movie)[0] : null;
 
     if (movieData) {
-      setName(movieData.name);
+      setId(movieData.id);
+      setImg(movieData.thumbnail);
+      setName(movieData.title);
       setUrl(movieData.url_slug);
       setDescription(movieData.description);
+      setMinutes(movieData.duration % 60);
+      setHours((movieData.duration - (movieData.duration % 60)) / 60);
+      setCategory(movieData.category_url_slug);
       setStatus(movieData.is_published === 0 ? "draft" : "publish");
     }
   }, [adminMovies, movie]);
@@ -76,8 +82,8 @@ export function MovieNewForm() {
       data.category = category;
     }
 
-    fetch("http://localhost:5437/api/admin/movies", {
-      method: "POST",
+    fetch("http://localhost:5437/api/admin/movies/" + id, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -249,7 +255,7 @@ export function MovieNewForm() {
         <hr className="my-4" />
         <div className="d-flex" style={{ gap: "1rem" }}>
           <button className="btn btn-success btn-lg" type="submit">
-            Create
+            Update
           </button>
           <button onClick={handleResetClick} className="btn btn-secondary btn-lg ms-auto" type="reset">
             Reset

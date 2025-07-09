@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
 import { CategoriesContext } from "../../context/categories/CategoriesContext";
 import { MoviesContext } from "../../context/movies/MoviesContext";
 import defaultImg from "../../assets/default.webp";
 
 export function MovieNewForm() {
   const navigate = useNavigate();
-  const { movie } = useParams();
+
   const { adminCategories } = useContext(CategoriesContext);
-  const { adminMovies, adminRefreshMovies } = useContext(MoviesContext);
+  const { adminRefreshMovies } = useContext(MoviesContext);
 
   const [img, setImg] = useState("");
   const [name, setName] = useState("");
@@ -18,17 +18,6 @@ export function MovieNewForm() {
   const [hours, setHours] = useState(0);
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("draft");
-
-  useEffect(() => {
-    const movieData = movie ? adminMovies.filter((m) => m.url_slug === movie)[0] : null;
-
-    if (movieData) {
-      setName(movieData.name);
-      setUrl(movieData.url_slug);
-      setDescription(movieData.description);
-      setStatus(movieData.is_published === 0 ? "draft" : "publish");
-    }
-  }, [adminMovies, movie]);
 
   function handleResetClick() {
     setName("");

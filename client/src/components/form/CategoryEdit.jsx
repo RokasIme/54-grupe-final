@@ -18,8 +18,6 @@ export function CategoryEditForm() {
   function handleResetClick() {
     const categoryData = category ? adminCategories.filter((c) => c.url_slug === category)[0] : null;
 
-    console.log(categoryData);
-
     if (categoryData) {
       setId(categoryData.id);
       setName(categoryData.name);

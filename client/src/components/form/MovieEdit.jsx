@@ -20,7 +20,9 @@ export function MovieEditForm() {
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("draft");
 
-  useEffect(() => {
+  useEffect(handleResetClick, [adminMovies, movie]);
+
+  function handleResetClick() {
     const movieData = movie ? adminMovies.filter((m) => m.url_slug === movie)[0] : null;
 
     if (movieData) {
@@ -34,13 +36,6 @@ export function MovieEditForm() {
       setCategory(movieData.category_url_slug);
       setStatus(movieData.is_published === 0 ? "draft" : "publish");
     }
-  }, [adminMovies, movie]);
-
-  function handleResetClick() {
-    setName("");
-    setUrl("");
-    setDescription("");
-    setStatus("draft");
   }
 
   function handleImageChange(e) {

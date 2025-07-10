@@ -1,14 +1,12 @@
 import { connection } from "../../db.js";
 import { IsValid } from "../../lib/IsValid.js";
+import fs from "fs/promises";
+import path from "path";
 
 export async function moviesPut(req, res) {
   const [errParams, msgParams] = IsValid.requiredFields(req.params, [{ field: "id", validation: IsValid.idAsString }]);
-
   if (errParams) {
-    return res.status(400).json({
-      status: "error",
-      msg: msgParams,
-    });
+    return res.status(400).json({ status: "error", msg: msgParams });
   }
 
   const [err, msg] = IsValid.requiredFields(
@@ -28,10 +26,7 @@ export async function moviesPut(req, res) {
   );
 
   if (err) {
-    return res.status(400).json({
-      status: "error",
-      msg: msg,
-    });
+    return res.status(400).json({ status: "error", msg: msg });
   }
 
   const { img, name, url, description, minutes, hours, category, status } = req.body;
@@ -40,41 +35,35 @@ export async function moviesPut(req, res) {
   try {
     const sql = "SELECT * FROM movies WHERE url_slug = ? AND id != ?;";
     const [result] = await connection.execute(sql, [url, +req.params.id]);
-
     if (result.length > 0) {
-      return res.status(400).json({
-        status: "error",
-        msg: "Toks filmas jau egzistuoja.",
-      });
+      return res.status(400).json({ status: "error", msg: "Toks filmas jau egzistuoja." });
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      status: "error",
-      msg: "Serverio klaida, pabandykite filma atnaujinti veliau1",
-    });
+    return res.status(500).json({ status: "error", msg: "Serverio klaida, pabandykite veliau (1)" });
   }
 
   let categoryId = 0;
-
   try {
     const sql = "SELECT * FROM categories WHERE url_slug = ?;";
     const [result] = await connection.execute(sql, [category]);
-
     if (result.length !== 1) {
-      return res.status(400).json({
-        status: "error",
-        msg: "Tokia kategorija neegzistuoja.",
-      });
+      return res.status(400).json({ status: "error", msg: "Tokia kategorija neegzistuoja." });
     }
-
     categoryId = result[0].id;
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      status: "error",
-      msg: "Serverio klaida, pabandykite filma atnaujinti veliau1",
-    });
+    return res.status(500).json({ status: "error", msg: "Serverio klaida, pabandykite veliau (2)" });
+  }
+
+  let oldThumbnail = null;
+  try {
+    const [rows] = await connection.execute("SELECT thumbnail FROM movies WHERE id = ?", [+req.params.id]);
+    if (rows.length > 0) {
+      oldThumbnail = rows[0].thumbnail;
+    }
+  } catch (error) {
+    console.log("Klaida gaunant esamą thumbnail:", error);
   }
 
   try {
@@ -97,21 +86,19 @@ export async function moviesPut(req, res) {
     const [result] = await connection.execute(sql, [...sqValues, +req.params.id]);
 
     if (result.affectedRows !== 1) {
-      return res.status(500).json({
-        status: "error",
-        msg: "Serverio klaida, pabandykite filma atnaujinti veliau2",
-      });
+      return res.status(500).json({ status: "error", msg: "Serverio klaida, pabandykite veliau (3)" });
+    }
+
+    if (oldThumbnail && img && oldThumbnail !== img) {
+      const oldImagePath = path.join(process.cwd(), "public", "img", "thumbnails", oldThumbnail);
+      try {
+        await fs.unlink(oldImagePath);
+      } catch (err) {}
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      status: "error",
-      msg: "Serverio klaida, pabandykite filma atnaujinti veliau3",
-    });
+    return res.status(500).json({ status: "error", msg: "Serverio klaida, pabandykite veliau (4)" });
   }
 
-  return res.json({
-    status: "success",
-    msg: "Filmas atnaujintas sekmingai",
-  });
+  return res.json({ status: "success", msg: "Filmas atnaujintas sėkmingai" });
 }

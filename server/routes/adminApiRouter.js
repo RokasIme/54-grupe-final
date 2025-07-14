@@ -4,8 +4,8 @@ import { moviesGet } from "../api/admin/moviesGet.js";
 import { moviesPost } from "../api/admin/moviesPost.js";
 import { moviesPut } from "../api/admin/moviesPut.js";
 import { moviesDelete } from "../api/admin/moviesDelete.js";
-import { movieBySlugGet } from "../api/admin/movieBySlugGet.js";
-import { moviesByCategoryGet } from "../api/admin/moviesByCategoryGet.js";
+// import { movieBySlugGet } from "../api/admin/movieBySlugGet.js";
+// import { moviesByCategoryGet } from "../api/admin/moviesByCategoryGet.js";
 import { categoriesGet } from "../api/admin/categoriesGet.js";
 import { categoriesPost } from "../api/admin/categoriesPost.js";
 import { categoriesDelete } from "../api/admin/categoriesDelete.js";
@@ -22,9 +22,9 @@ adminApiRouter.post("/movies", moviesPost);
 adminApiRouter.put("/movies/:id", moviesPut);
 adminApiRouter.delete("/movies/:id", moviesDelete);
 
-adminApiRouter.get("/movies/:slug", movieBySlugGet);
+// adminApiRouter.get("/movies/:slug", movieBySlugGet);
 
-adminApiRouter.get("/movies-by-category/:slug", moviesByCategoryGet);
+// adminApiRouter.get("/movies-by-category/:slug", moviesByCategoryGet);
 
 adminApiRouter.get("/categories", categoriesGet);
 adminApiRouter.post("/categories", categoriesPost);
